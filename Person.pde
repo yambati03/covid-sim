@@ -1,21 +1,19 @@
 class Person {
-  private int state; //0 = healthy; 1 = infected; 2 = recovered; 3 = deceased; 4 = incubation
-  private int age, infect_radius;
+  private int state = 0; //0 = healthy; 1 = infected; 2 = recovered; 3 = deceased; 4 = incubation
+  private int age;
   private float rot, dr, x, y, p_d, p_i;
   private int t_incubated, t_infected = 0;
-  private final int tDay = 5;
   
   public Person(int x_min, int x_max, int y_min, int y_max){
-    state = 0;
-    p_i = 0.2;
-    p_d = 0.2;
-    infect_radius = 30;
-    rot = random(0, 360);
-    dr = random(10, 20);
-    x = random(x_min, x_max);
-    y = random(y_min, y_max);
+    this.p_i = 0.2;
+    this.p_d = 0.2;
+    this.rot = random(0, 360);
+    this.dr = random(10, 20);
+    this.x = random(x_min, x_max);
+    this.y = random(y_min, y_max);
   }
   
+  //infect individual using set probability
   void p_infect(){
     float r = random(0, 1);
     if(r < p_i){ this.state = 4; }
@@ -29,16 +27,18 @@ class Person {
     return this.state;
   }
   
+  //set individual to recovered or deceased based on set probability
   void p_remove(){
     float r = random(0, 1);
     if(r < p_d){ this.state = 3; } else { this.state = 2; }
   }
   
+  //infect all healthy neighbors within the set infection radius
   void infect_neighbors(World w){
     for(Person p : w.people){
         if(p.getState() == 0) {
           float distance = sqrt(pow(p.x - this.x, 2) + pow(p.y - this.y, 2));
-          if(distance < this.infect_radius){ p.p_infect(); }
+          if(distance < infect_radius){ p.p_infect(); }
         }
      }
   }
@@ -46,8 +46,8 @@ class Person {
   void move(World from, World to){
     to.people.add(this);
     from.people.remove(this);
-    x = to.x_min + (to.side / 2); //lerp(x, to.x_min + (to.side / 2), 0.1);
-    y = to.y_min + (to.side / 2); //lerp(y, to.y_min + (to.side / 2), 0.1);
+    x = lerp(x, to.x_min + (to.side / 2), 0.5);
+    y = lerp(y, to.y_min + (to.side / 2), 0.5);
   }
   
   void update(World w){

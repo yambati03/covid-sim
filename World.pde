@@ -1,7 +1,6 @@
 class World{
   private int x_min, x_max, y_min, y_max, side;
   ArrayList<Person> people = new ArrayList<Person>();
-  private final int pop_size = 200;
   
   World(int x, int y, int side){
     this.side = side;

@@ -19,7 +19,7 @@ class World{
   
   void show(){
     noFill();
-    stroke(255);
+    stroke(200);
     rect(this.x_min, this.y_min, this.side, this.side);
   }
   

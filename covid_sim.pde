@@ -3,6 +3,7 @@ final int pop_size = 200;
 final int tDay = 5;
 final int infect_radius = 30;
 final int q_days = 2;
+final boolean q = true;
 
 World world = new World(20, 20, 540);
 World quarantine = new World(580, 20, 300);
@@ -24,7 +25,7 @@ void draw() {
   }
   for(int i = 0; i < world.people.size(); i++){
     //move infected people to quarantine after q_days * tDay timesteps
-    if (world.people.get(i).t_infected > q_days * tDay){
+    if (q && world.people.get(i).t_infected > q_days * tDay){
       world.people.get(i).move(world, quarantine);
       i = i - 1;
       continue;

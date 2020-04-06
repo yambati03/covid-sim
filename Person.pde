@@ -46,8 +46,8 @@ class Person {
   void move(World from, World to){
     to.people.add(this);
     from.people.remove(this);
-    x = lerp(x, to.x_min + (to.side / 2), 0.5);
-    y = lerp(y, to.y_min + (to.side / 2), 0.5);
+    x = lerp(x, to.x_min + (to.side / 2), 1);
+    y = lerp(y, to.y_min + (to.side / 2), 1);
   }
   
   void update(World w){
@@ -82,17 +82,20 @@ class Person {
   
   void show(){
     if(state == 0){
-       stroke(0, 255, 0);
-       fill(0, 255, 0); 
+       stroke(59, 168, 82);
+       fill(59, 168, 82); 
     } else if(state == 1){
-       stroke(255, 0, 0);
-       fill(255, 0, 0);
+       stroke(212, 57, 73);
+       fill(212, 57, 73);
     } else if(state == 4){
-       stroke(255, 255, 0);
-       fill(255, 255, 0);
-    }  else if(state == 2 || state == 3){
+       stroke(220, 224, 92);
+       fill(220, 224, 92);
+    }  else if(state == 2){
        stroke(100);
        fill(100);
+    } else if(state == 3){
+       stroke(70);
+       fill(70);
     }
     ellipse(x, y, 10, 10);
   }

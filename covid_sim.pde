@@ -3,53 +3,30 @@ final int pop_size = 200;
 final int tDay = 5;
 final int infect_radius = 30;
 final int q_days = 2;
-final boolean q = true;
+final boolean do_quarantine = true;
 
-World world = new World(20, 20, 540);
-World quarantine = new World(580, 20, 300);
+Env main1 = new Env(20, 20, 540);
+Env main2 = new Env(20, 600, 540);
+Env quarantine = new Env(580, 20, 300);
+World w = new World(quarantine, main1, main2);
 
 void setup() {
-  size(900, 600);
-  world.gen_pop();
+  size(900, 1200);
 }
 
 void draw() {
   background(0);
-  quarantine.show();
-  quarantine.update();
-  world.show();
-  world.update();
-  for(Person p : quarantine.people){
-    p.show();
-    p.update(quarantine);
-  }
-  for(int i = 0; i < world.people.size(); i++){
-    //move infected people to quarantine after q_days * tDay timesteps
-    if (q && world.people.get(i).t_infected > q_days * tDay){
-      world.people.get(i).move(world, quarantine);
-      i = i - 1;
-      continue;
-    }
-    world.people.get(i).show();
-    world.people.get(i).update(world);
-  }
+  w.show();
+  w.update();
+  w.move_to_quarantine();
+  w.show_people();
   printStats();
   delay(25);
 }
 
 void printStats(){
-  int[] stats = add(world.getStatistics(), quarantine.getStatistics());
+  int[] stats = w.getStatistics();
   System.out.printf("healthy: %s, recovered: %s, deceased: %s \n", stats[0], stats[1], stats[2]);
-}
-
-//add two arrays element-wise
-int[] add(int[] first, int[] second){
-  int len = first.length < second.length ? first.length : second.length; 
-  int[] result = new int[len]; 
-  for (int i = 0; i < len; i++) { 
-    result[i] = first[i] + second[i]; 
-  } 
-  return result;
 }
 
 void keyPressed() {
@@ -63,7 +40,8 @@ void keyPressed() {
     background(0);
   } else if(keyIndex == 8){ 
     //infect a random person in the population
-    world.people.get((int)random(0, pop_size)).setState(1);
+    main1.people.get((int)random(0, pop_size)).setState(1);
+    main2.people.get((int)random(0, pop_size)).setState(1);
   } else {
     println(keyIndex);
   }

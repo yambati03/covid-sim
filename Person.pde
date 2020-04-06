@@ -34,7 +34,7 @@ class Person {
   }
   
   //infect all healthy neighbors within the set infection radius
-  void infect_neighbors(World w){
+  void infect_neighbors(Env w){
     for(Person p : w.people){
         if(p.getState() == 0) {
           float distance = sqrt(pow(p.x - this.x, 2) + pow(p.y - this.y, 2));
@@ -43,14 +43,14 @@ class Person {
      }
   }
   
-  void move(World from, World to){
+  void move(Env from, Env to){
     to.people.add(this);
     from.people.remove(this);
     x = lerp(x, to.x_min + (to.side / 2), 1);
     y = lerp(y, to.y_min + (to.side / 2), 1);
   }
   
-  void update(World w){
+  void update(Env w){
     if(state != 3){
       rot = rot + random(-10, 10);
       float target_x = x + dr * cos(radians(rot));

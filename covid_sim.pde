@@ -4,6 +4,7 @@ final int tDay = 5;
 final int infect_radius = 30;
 final int q_days = 2;
 final boolean do_quarantine = true;
+final boolean travel = true;
 
 Env main1 = new Env(20, 20, 540);
 Env main2 = new Env(20, 600, 540);
@@ -18,7 +19,8 @@ void draw() {
   background(0);
   w.show();
   w.update();
-  w.move_to_quarantine();
+  if(travel) { w.travel(); }
+  if(do_quarantine) { w.move_to_quarantine(); }
   w.show_people();
   printStats();
   delay(25);

@@ -43,6 +43,11 @@ class Person {
      }
   }
   
+  void p_travel(Env from, Env to){
+    float r = random(0, 1);
+    if(this.state != 3 && r < 0.1){ this.move(from, to); }
+  }
+  
   void move(Env from, Env to){
     to.people.add(this);
     from.people.remove(this);
@@ -57,7 +62,7 @@ class Person {
       float target_y = y + dr * sin(radians(rot));
       x = lerp(x, target_x, 0.1);
       y = lerp(y, target_y, 0.1);
-    }
+    }  
     
     if(!w.is_in_world(this)){
       w.constrain_to_world(this);

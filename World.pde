@@ -24,13 +24,24 @@ class World{
       e.update();
     }
     quarantine.update();
+  } 
+  
+  Env rand_env(){
+    int i = (int)random(0, envs.size());
+    return this.envs.get(i);
+  }
+  
+  void travel(){
+    Env e = this.envs.get(0);
+    int i = (int)random(0, e.people.size());
+    e.people.get(i).p_travel(e, this.envs.get(1));
   }
   
   void move_to_quarantine(){
     for(Env e : envs){
       for(int i = 0; i < e.people.size(); i++){
         //move infected people to quarantine after q_days * tDay timesteps
-        if (do_quarantine && e.people.get(i).t_infected > q_days * tDay){
+        if (e.people.get(i).t_infected > q_days * tDay){
           e.people.get(i).move(e, quarantine);
           i = i - 1;
           continue;

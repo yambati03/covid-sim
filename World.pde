@@ -1,9 +1,11 @@
 class World{
   ArrayList<Env> envs = new ArrayList<Env>();
   Env quarantine;
+  Env central_hub;
   
-  World(Env quarantine, Env ...envs){
+  World(Env quarantine, Env central_hub, Env ...envs){
     this.quarantine = quarantine;
+    this.central_hub = central_hub;
     for(Env e : envs){
       this.envs.add(e);
       e.gen_pop();
@@ -17,6 +19,7 @@ class World{
       e.show();
     }
     quarantine.show();
+    if(do_hub){ central_hub.show(); }
   }
   
   void update(){
@@ -24,6 +27,7 @@ class World{
       e.update();
     }
     quarantine.update();
+    if(do_hub){ central_hub.update(); }
   } 
   
   Env rand_env(){
@@ -31,10 +35,17 @@ class World{
     return this.envs.get(i);
   }
   
+  Env rand_env(Env e){
+    while(true){
+      int i = (int)random(0, envs.size());
+      if(this.envs.get(i) != e) {  return this.envs.get(i); }
+    }
+  }
+  
   void travel(){
-    Env e = this.envs.get(0);
+    Env e = this.rand_env();
     int i = (int)random(0, e.people.size());
-    e.people.get(i).p_travel(e, this.envs.get(1));
+    e.people.get(i).p_travel(e, this.rand_env(e));
   }
   
   void move_to_quarantine(){
@@ -54,11 +65,21 @@ class World{
     for(Person p : quarantine.people){
       p.show();
       p.update(quarantine);
+      p.update_state();
+    }
+    for(Person p : central_hub.people){
+      p.show();
+      p.update(quarantine);
+      p.update_state();
     }
     for(Env e : envs){
       for(Person p : e.people){
         p.show();
-        p.update(e);
+        p.update_state();
+      }
+      int p_update = round(p_not_sd * e.people.size());
+      for(int i = 0; i < p_update; i++){
+        e.people.get(i).update(e);
       }
     }
   }

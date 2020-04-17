@@ -1,12 +1,12 @@
 class Person {
   private int state = 0; //0 = healthy; 1 = infected; 2 = recovered; 3 = deceased; 4 = incubation
-  private int age;
   private float rot, dr, x, y, p_d, p_i;
+  private float prev_x, prev_y;
   private int t_incubated, t_infected = 0;
   
   public Person(int x_min, int x_max, int y_min, int y_max){
-    this.p_i = 0.2;
-    this.p_d = 0.2;
+    this.p_i = 0.1;
+    this.p_d = 0.1;
     this.rot = random(0, 360);
     this.dr = random(10, 20);
     this.x = random(x_min, x_max);
@@ -14,8 +14,8 @@ class Person {
   }
   
   //infect individual using set probability
-  void p_infect(){
-    float r = random(0, 1);
+  void p_infect(){ 
+    float r = random(0, 1); 
     if(r < p_i){ this.state = 4; }
   }
   
@@ -67,17 +67,19 @@ class Person {
     if(!w.is_in_world(this)){
       w.constrain_to_world(this);
     }
-    
+  }
+  
+  void update_state(){
     switch(state){
       case 4:
         t_incubated = t_incubated + 1;
-        if(t_incubated > 14 * tDay) {
+        if(t_incubated > 7 * tDay) {
           this.state = 1;
         }
         break;
       case 1:
         t_infected = t_infected + 1;
-        if(t_infected > 30 * tDay) {
+        if(t_infected > 15 * tDay) {
           this.p_remove();
         }
       default:
@@ -102,6 +104,6 @@ class Person {
        stroke(70);
        fill(70);
     }
-    ellipse(x, y, 10, 10);
+    ellipse(x, y, 7, 7);
   }
 }

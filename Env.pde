@@ -25,7 +25,7 @@ class Env{
   
   void update(){
     for(Person p : this.people){
-      if(p.getState() == 1){
+      if(p.getState() == 1 || p.getState() == 4){
          p.infect_neighbors(this);  
       }
     }
@@ -40,18 +40,21 @@ class Env{
   }
   
   int[] getStatistics(){
-    int[] stats = new int[3];
-    stats[0] = stats[1] = stats[2] = 0;
+    int[] stats = new int[4];
+    stats[0] = stats[1] = stats[2] = stats[3] = 0;
     for(Person p : people){
       switch(p.getState()){
         case 0: //healthy
           stats[0] += 1;
           break;
-        case 2: //recovered
+        case 1: //infected
           stats[1] += 1;
           break;
-        case 3: //deceased
+        case 2: //recovered
           stats[2] += 1;
+          break;
+        case 3: //deceased
+          stats[3] += 1;
           break;
         default:
           break;

@@ -5,7 +5,7 @@ class Person {
   private int t_incubated, t_infected = 0;
   
   public Person(int x_min, int x_max, int y_min, int y_max){
-    this.p_i = 0.1;
+    this.p_i = 0.2;
     this.p_d = 0.1;
     this.rot = random(0, 360);
     this.dr = random(10, 20);
@@ -73,13 +73,13 @@ class Person {
     switch(state){
       case 4:
         t_incubated = t_incubated + 1;
-        if(t_incubated > 7 * tDay) {
+        if(t_incubated > 5 * tDay) {
           this.state = 1;
         }
         break;
       case 1:
         t_infected = t_infected + 1;
-        if(t_infected > 15 * tDay) {
+        if(t_infected > 14 * tDay) {
           this.p_remove();
         }
       default:

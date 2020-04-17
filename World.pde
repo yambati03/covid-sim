@@ -43,9 +43,11 @@ class World{
   }
   
   void travel(){
-    Env e = this.rand_env();
-    int i = (int)random(0, e.people.size());
-    e.people.get(i).p_travel(e, this.rand_env(e));
+    if(this.envs.size() > 1){
+      Env e = this.rand_env();
+      int i = (int)random(0, e.people.size());
+      e.people.get(i).p_travel(e, this.rand_env(e));
+    }
   }
   
   void move_to_quarantine(){

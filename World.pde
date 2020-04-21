@@ -63,6 +63,18 @@ class World{
     }
   }
   
+  void remove_aerosols(){
+    for(Env e : envs){
+      for(int i = 0; i < e.aerosols.size(); i++){
+        if (e.aerosols.get(i).t_alive > a_lifetime){
+          e.aerosols.remove(i);
+          i = i - 1;
+          continue;
+        }
+      }
+    }
+  }
+  
   void show_people(){
     for(Person p : quarantine.people){
       p.show();
@@ -82,6 +94,15 @@ class World{
       int p_update = round(p_not_sd * e.people.size());
       for(int i = 0; i < p_update; i++){
         e.people.get(i).update(e);
+      }
+    }
+  }
+  
+  void show_aerosols(){
+    for(Env e : envs){
+      for(Aerosol a : e.aerosols){
+        a.show();
+        a.update(e);
       }
     }
   }

@@ -1,22 +1,36 @@
 class Person {
   private int state = 0; //0 = healthy; 1 = infected; 2 = recovered; 3 = deceased; 4 = incubation
-  private float rot, dr, x, y, p_d, p_i;
+  private float rot, dr, x, y, p_d, p_i, p_a;
   private float prev_x, prev_y;
   private int t_incubated, t_infected = 0;
   
   public Person(int x_min, int x_max, int y_min, int y_max){
     this.p_i = 0.2;
     this.p_d = 0.1;
+    this.p_a = 0.01;
     this.rot = random(0, 360);
     this.dr = random(10, 20);
     this.x = random(x_min, x_max);
     this.y = random(y_min, y_max);
   }
   
+  void gen_aerosol(Env e){
+    float r = random(0, 1); 
+    if(r < p_a && do_aerosols) {
+      Aerosol a = new Aerosol(this.x, this.y);
+      e.aerosols.add(a);
+    }
+  }
+  
   //infect individual using set probability
   void p_infect(){ 
     float r = random(0, 1); 
     if(r < p_i){ this.state = 4; }
+  }
+  
+  void a_infect(Aerosol a){
+    boolean is_in_a = pow(this.x - a.x, 2) + pow(this.y - a.y, 2) < pow(a.radius, 2);
+    if(is_in_a){ this.p_infect(); }
   }
   
   void setState(int state){
@@ -67,6 +81,8 @@ class Person {
     if(!w.is_in_world(this)){
       w.constrain_to_world(this);
     }
+    
+    if(this.state == 1){ this.gen_aerosol(w); }
   }
   
   void update_state(){

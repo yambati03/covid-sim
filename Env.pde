@@ -1,6 +1,7 @@
 class Env{
   private int x_min, x_max, y_min, y_max, side;
   ArrayList<Person> people = new ArrayList<Person>();
+  ArrayList<Aerosol> aerosols = new ArrayList<Aerosol>();
   
   Env(int x, int y, int side){
     this.side = side;
@@ -27,6 +28,11 @@ class Env{
     for(Person p : this.people){
       if(p.getState() == 1 || p.getState() == 4){
          p.infect_neighbors(this);  
+      }
+    }
+    for(Aerosol a : this.aerosols){
+      for(Person p : this.people){
+        if(p.getState() == 0){ p.a_infect(a); }
       }
     }
   }

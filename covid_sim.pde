@@ -9,9 +9,9 @@ final int a_lifetime = 5;
 
 float p_not_sd = 1.0;
 boolean did_response = false;
-boolean do_hub = true;
+boolean do_hub = false;
 boolean do_quarantine = false;
-boolean do_travel = true;
+boolean do_travel = false;
 boolean show_eradicated = false;
 boolean do_aerosols = true;
 
@@ -22,7 +22,7 @@ Env main1 = new Env(20, 20, 400);
 Env main2 = new Env(20, 440, 400);
 Env quarantine = new Env(440, 20, 300);
 Env central_hub = new Env(440, 440, 200);
-World w = new World(quarantine, central_hub, main1, main2);
+World w = new World(quarantine, central_hub, main1);
 
 void do_response(){
   //do_quarantine = true;
@@ -36,8 +36,8 @@ void no_response(){
 }
 
 void setup() {
-  size(760, 880);
-  output = createWriter("data.csv"); 
+  size(760, 440);
+  output = createWriter("data_aerosol.csv"); 
 }
 
 void draw() {
@@ -75,7 +75,7 @@ int getStats(){
   text(String.format("recovered   %s", stats[2]), 440, 400);
   fill(200);
   text(String.format("deceased    %s", stats[3]), 440, 420);
-  output.println(stats[0] + ", " + stats[1] + ", " + stats[2] + ", " + stats[3]); 
+  output.println(stats[0] + ", " + (stats[1] + stats[4]) + ", " + stats[2] + ", " + stats[3]); 
   return stats[1]; //return number infected
 }
 

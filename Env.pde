@@ -46,8 +46,8 @@ class Env{
   }
   
   int[] getStatistics(){
-    int[] stats = new int[4];
-    stats[0] = stats[1] = stats[2] = stats[3] = 0;
+    int[] stats = new int[5];
+    stats[0] = stats[1] = stats[2] = stats[3] = stats[4] = 0;
     for(Person p : people){
       switch(p.getState()){
         case 0: //healthy
@@ -61,6 +61,9 @@ class Env{
           break;
         case 3: //deceased
           stats[3] += 1;
+          break;
+        case 4: //incubation
+          stats[4] += 1;
           break;
         default:
           break;

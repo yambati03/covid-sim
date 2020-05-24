@@ -5,7 +5,7 @@ class Aerosol{
   Aerosol(float x, float y){
     this.x = x;
     this.y = y;
-    this.radius = random(40, 60);
+    this.radius = random(60, 80);
   }
 
   void show(){
@@ -14,7 +14,7 @@ class Aerosol{
     circle(this.x, this.y, this.radius);
   }
   
-  void update(Env e){
+  void update(){
     t_alive += 1;
   }
 }

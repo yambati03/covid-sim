@@ -11,6 +11,7 @@ class Env{
     this.y_max = y + side;
   }
   
+  //add specified number of people to environment
   void gen_pop(){
     for(int i = 0; i < pop_size; i++){
       Person person = new Person(this.x_min, this.x_max, this.y_min, this.y_max);
@@ -25,6 +26,7 @@ class Env{
   }
   
   void update(){
+    //infect people based on proximity to infected people and aerosols
     for(Person p : this.people){
       if(p.getState() == 1 || p.getState() == 4){
          p.infect_neighbors(this);  
@@ -37,6 +39,7 @@ class Env{
     }
   }
   
+  //check if person is within bounds of environment
   boolean is_in_world(Person p){
     if(p.x < x_max && p.x > x_min && p.y < y_max && p.y > y_min){
       return true;

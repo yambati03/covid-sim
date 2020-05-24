@@ -14,6 +14,6 @@ deceased = df["deceased"]
 
 color_map = ["#d43949", "#3ba852", "#646464", "#464646"]
 y = np.vstack([infected, healthy, recovered, deceased])
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(9, 3))
 ax.stackplot(x, y, colors=color_map)
 plt.show()

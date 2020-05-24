@@ -1,13 +1,12 @@
 class Person {
   private int state = 0; //0 = healthy; 1 = infected; 2 = recovered; 3 = deceased; 4 = incubation
   private float rot, dr, x, y, p_d, p_i, p_a;
-  private float prev_x, prev_y;
   private int t_incubated, t_infected = 0;
   
   public Person(int x_min, int x_max, int y_min, int y_max){
     this.p_i = 0.2;
     this.p_d = 0.1;
-    this.p_a = 0.01;
+    this.p_a = 0.05;
     this.rot = random(0, 360);
     this.dr = random(10, 20);
     this.x = random(x_min, x_max);

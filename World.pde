@@ -1,11 +1,9 @@
 class World{
   ArrayList<Env> envs = new ArrayList<Env>();
   Env quarantine;
-  Env central_hub;
   
-  World(Env quarantine, Env central_hub, Env ...envs){
+  World(Env quarantine, Env ...envs){
     this.quarantine = quarantine;
-    this.central_hub = central_hub;
     for(Env e : envs){
       this.envs.add(e);
       e.gen_pop();
@@ -19,7 +17,6 @@ class World{
       e.show();
     }
     quarantine.show();
-    if(do_hub){ central_hub.show(); }
   }
   
   void update(){
@@ -27,14 +24,15 @@ class World{
       e.update();
     }
     quarantine.update();
-    if(do_hub){ central_hub.update(); }
   } 
   
+  //return random environment
   Env rand_env(){
     int i = (int)random(0, envs.size());
     return this.envs.get(i);
   }
   
+  //return random environment that is not e
   Env rand_env(Env e){
     while(true){
       int i = (int)random(0, envs.size());
@@ -81,11 +79,6 @@ class World{
       p.update(quarantine);
       p.update_state();
     }
-    for(Person p : central_hub.people){
-      p.show();
-      p.update(quarantine);
-      p.update_state();
-    }
     for(Env e : envs){
       for(Person p : e.people){
         p.show();
@@ -102,7 +95,7 @@ class World{
     for(Env e : envs){
       for(Aerosol a : e.aerosols){
         a.show();
-        a.update(e);
+        a.update();
       }
     }
   }
